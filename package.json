@@ -1,7 +1,6 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -11,6 +10,7 @@
   "author": "",
   "type": "module",
   "license": "ISC",
+  "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.7.0",
