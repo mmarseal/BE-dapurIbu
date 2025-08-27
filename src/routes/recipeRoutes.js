@@ -1,12 +1,10 @@
-// nanti sesuaikan untuk api dan db nya dri yang sudah diberi tanda komentar
-
 import express from "express";
 import cloudinary from "../lib/cloudinary.js";
 import Recipe from "../models/Recipe.js";
 import protectRoute from "../middleware/auth.middleware.js";
 
 const router = express.Router();
-
+// nanti sesuaikan untuk api dan db nya dri yang sudah diberi tanda komentar
 router.post("/", protectRoute, async (req, res) => {
   try {
     const { title, caption, rating, image } = req.body;

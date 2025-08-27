@@ -8,7 +8,8 @@ import recipeRoutes from "./routes/recipeRoutes.js";
 import { connectDB } from "./lib/db.js";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+connectDB();
 
 app.use(express.json());
 app.use(cors());
@@ -16,7 +17,4 @@ app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/recipe", recipeRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  connectDB();
-});
+export default app;
