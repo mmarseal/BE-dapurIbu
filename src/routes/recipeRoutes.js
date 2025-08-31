@@ -80,19 +80,19 @@ router.get("/user", protectRoute, async (req, res) => {
 
 router.delete("/:id", protectRoute, async (req, res) => {
   try {
-    const Recipe = await Recipe.findById(req.params.id);
-    if (!Recipe)
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe)
       return res.status(404).json({ message: "Resep tidak ditemukan" });
 
-    // check if user is the creator of the Recipe
-    if (Recipe.user.toString() !== req.user._id.toString())
+    // check if user is the creator of the recipe
+    if (recipe.user.toString() !== req.user._id.toString())
       return res.status(401).json({ message: "Unauthorized" });
 
     // https://res.cloudinary.com/de1rm4uto/image/upload/v1741568358/qyup61vejflxxw8igvi0.png
     // delete image from cloduinary as well
-    if (Recipe.image && Recipe.image.includes("cloudinary")) {
+    if (recipe.image && recipe.image.includes("cloudinary")) {
       try {
-        const publicId = Recipe.image.split("/").pop().split(".")[0];
+        const publicId = recipe.image.split("/").pop().split(".")[0];
         await cloudinary.uploader.destroy(publicId);
       } catch (deleteError) {
         console.log(
@@ -102,7 +102,7 @@ router.delete("/:id", protectRoute, async (req, res) => {
       }
     }
 
-    await Recipe.deleteOne();
+    await recipe.deleteOne();
 
     res.json({ message: "Resep berhasil dihapus" });
   } catch (error) {
