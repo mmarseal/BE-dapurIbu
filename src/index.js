@@ -24,7 +24,7 @@ app.use(
   })
 );
 
-// Test routes - IMPORTANT for debugging
+// Test routes
 app.get("/", (req, res) => {
   res.status(200).json({
     message: "DapurIbu API is running!",
@@ -52,7 +52,7 @@ app.get("/api/health", (req, res) => {
     status: "healthy",
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
-    database: "connected", // You can make this dynamic
+    database: "connected",
     environment: process.env.NODE_ENV || "development",
   });
 });
@@ -85,25 +85,3 @@ app.use("*", (req, res) => {
 });
 
 export default app;
-
-// -- ori --
-// import express from "express";
-// import cors from "cors";
-// import "dotenv/config";
-
-// import authRoutes from "./routes/authRoutes.js";
-// import recipeRoutes from "./routes/recipeRoutes.js";
-
-// import { connectDB } from "./lib/db.js";
-
-// const app = express();
-
-// connectDB();
-
-// app.use(express.json());
-// app.use(cors());
-
-// app.use("/api/auth", authRoutes);
-// app.use("/api/recipe", recipeRoutes);
-
-// export default app;
