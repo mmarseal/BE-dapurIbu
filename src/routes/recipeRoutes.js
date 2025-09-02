@@ -4,15 +4,20 @@ import Recipe from "../models/Recipe.js";
 import protectRoute from "../middleware/auth.middleware.js";
 
 const router = express.Router();
-// nanti sesuaikan untuk api dan db nya dri yang sudah diberi tanda komentar
+
 router.post("/", protectRoute, async (req, res) => {
   try {
-    const { title, caption, rating, image } = req.body;
-    // const { title, image, ingredients, steps } = req.body;
+    const { title, image, ingredients, steps } = req.body;
 
-    if (!image || !title || !caption || !rating) {
-      // (!image || !title || !ingredients || !steps)
+    if (!image || !title || !ingredients || !steps) {
       return res.status(400).json({ message: "Silakan isi semua kolom" });
+    }
+
+    // Validasi ingredients dan steps tidak kosong
+    if (ingredients.length === 0 || steps.length === 0) {
+      return res.status(400).json({
+        message: "Ingredients dan steps tidak boleh kosong",
+      });
     }
 
     // upload the image to cloudinary
@@ -22,9 +27,8 @@ router.post("/", protectRoute, async (req, res) => {
     // save to the database
     const newRecipe = new Recipe({
       title,
-      caption,
-      rating,
-      //   ingredients, steps,
+      ingredients,
+      steps,
       image: imageUrl,
       user: req.user._id,
     });
@@ -89,7 +93,7 @@ router.delete("/:id", protectRoute, async (req, res) => {
       return res.status(401).json({ message: "Unauthorized" });
 
     // https://res.cloudinary.com/de1rm4uto/image/upload/v1741568358/qyup61vejflxxw8igvi0.png
-    // delete image from cloduinary as well
+    // delete image from cloudinary as well
     if (recipe.image && recipe.image.includes("cloudinary")) {
       try {
         const publicId = recipe.image.split("/").pop().split(".")[0];
